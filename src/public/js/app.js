@@ -51,6 +51,21 @@ function handleRoomSubmit(event) {
 socket.on("welcome", (user) => {addMessage(user, " joined!")} ); 
 socket.on("bye", (user) => {addMessage(user, " left ㅠㅠ")} ); 
 socket.on("new_message", (user, msg) => {addMessage(user, msg)} );
+socket.on("room_change", (rooms) => {
+  const roomList = welcome.querySelector("ul");
+  roomList.innerHTML = "";
+	if(rooms.length === 0) {
+		return;
+	}
+  rooms.forEach(room => {
+    const li = document.createElement("li");
+    const div = document.createElement("button");
+    li.innerText = room; 
+    div.append(li);
+    roomList.append(div); 
+    }
+    )
+  })
 
 //  방 번호 입력 후 제출하면 handleRoomSubmit 함수 실행 
 welcome.addEventListener("submit", handleRoomSubmit);
