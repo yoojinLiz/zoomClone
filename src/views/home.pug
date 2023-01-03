@@ -2,19 +2,20 @@ doctype html
 html(lang="en")
 	head
 		//- link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+		link(rel="stylesheet", href="/static/css/styles.css")
 		title 
 	body
-		header(style="text-align: center")
+		header
 			img(src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b78bca8e-a4da-49fa-ab80-3d02c3ca7775/Pngtreecute_dinosaur_free_illustration_4624375.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230103%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230103T075745Z&X-Amz-Expires=86400&X-Amz-Signature=773e240db138a51abcc24217e07d98187e80411e38da5718537c08783f690451&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22%25E2%2580%2594Pngtree%25E2%2580%2594cute%2520dinosaur%2520free%2520illustration_4624375.png%22&x-id=GetObject", width="160px", height = "200px")
 		main
-			div#welcome(style="text-align: center")
+			div#welcome
 				form    
 					input(placeholder="room name", required, type="text")
 					button Enter room
 			div#call
-				div#myStream(style="text-align: center")
+				div#myStream
 					video#myFace(autoplay,playsinline, muted, width="300", height="200")
-				div(style="text-align: center")
+				div#controllers
 					button#mute Mute
 					span                    
 					button#camera Turn Camera Off
