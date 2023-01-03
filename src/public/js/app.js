@@ -175,7 +175,7 @@ function makeConnection() {
   });
   myPeerConnection.addEventListener("icecandidate", handleIce);
   myPeerConnection.addEventListener("addstream", handleAddStream);
-  myPeerConnection.addEventListener("track", handleTrack)
+  myPeerConnection.addEventListener("track", handleTrack);
   
   myStream
     .getTracks()
