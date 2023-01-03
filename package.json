@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon"
-  }, 
+  },
   "bugs": {
     "url": "https://github.com/yoojinLiz/zoomClone/issues"
   },
