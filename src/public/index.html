@@ -1,20 +1,43 @@
+
 <html lang="en">
 
 <head>
 	<title> </title>
-	<link rel="stylesheet" type= "text/css" href="/src/public/css/styles.css">
 	<style>
-
+		body {
+			height : 90vh;
+		}
 		header, #welcome, #myStream, #controllers, #call{
 			text-align: center;
-			display: flexbox;
-			justify-content: center;
+
 		}
 		#call {
 			background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e93f32e2-3742-42cb-a50b-03626443685f/df6g15q-7f8d784b-1ac7-45f9-b45f-b869ba4f3438.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2U5M2YzMmUyLTM3NDItNDJjYi1hNTBiLTAzNjI2NDQzNjg1ZlwvZGY2ZzE1cS03ZjhkNzg0Yi0xYWM3LTQ1ZjktYjQ1Zi1iODY5YmE0ZjM0MzguanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ZKeqryjrS1Nm-isUBNYGxI126grZblVBFZLlvxMLXXg");
 			background-repeat:no-repeat;
 			background-size: cover;
-			
+		}
+		#videos {
+			display: flex;
+			justify-content: center;
+			padding: 0 3%;
+		}
+		#peerStream{
+			width: 20%;
+			display:flex;
+			flex-direction: column;
+			align-items: center;
+			background-color: rgba(255,255,255,0.5);
+			border-radius: 30px;
+			padding: 40px 0;
+			margin-top:  40px;
+			margin-bottom: 100px ;
+		}
+		#myStream {
+			width: 80%;
+			padding-left: 100px;
+			text-align: left;
+			color: white;
+	
 		}
 		#welcome img {
 			width :300px;
@@ -22,15 +45,18 @@
 			margin: 50px 0px;
 		}
 		#call img {
-			width :200px;
-			margin: 50px 0px;
+			width :20px;
+			margin: 10px 0px;
 		}
-		video {
-			width: 600 px;
-			height: 500px; 
-			border-radius: 150px;
+		#myStream video {
+			width: 100%;
+			border-radius: 15%;
 		}
-
+		#peerStream video {
+			width: 250px;
+			height: 250px;
+			border-radius: 15%;
+		}
 		main {
 			display: flexbox;
 			justify-content: center;
@@ -68,16 +94,24 @@
 			<form> 
 				<input placeholder="room name" required="" type="text"><button>Enter room</button></form>
 		</div>
-		<div id="call" hidden="">
+		<div id="call">
 			<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b78bca8e-a4da-49fa-ab80-3d02c3ca7775/Pngtreecute_dinosaur_free_illustration_4624375.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230103%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20230103T075745Z&amp;X-Amz-Expires=86400&amp;X-Amz-Signature=773e240db138a51abcc24217e07d98187e80411e38da5718537c08783f690451&amp;X-Amz-SignedHeaders=host&amp;response-content-disposition=filename%3D%22%25E2%2580%2594Pngtree%25E2%2580%2594cute%2520dinosaur%2520free%2520illustration_4624375.png%22&amp;x-id=GetObject">
-			<div id="myStream">
-				<video id="myFace" autoplay="" playsinline="" muted=""></video></div>
-			<div style="text-align: center">
-				<button id="mute">Mute</button><span> </span>
-				<button id="camera">Turn Camera Off</button><span> </span>
-				<button> <select id="cameras"></select></button>
-				<div></div>
-				<video id="peerFace" autoplay="" playsinline=""></video>
+			<div id="videos">
+				<div id="peerStream">
+					<video id="peerFace" autoplay="" playsinline=""></video>
+					<video id="peerFace2" autoplay="" playsinline=""></video>
+					<video id="peerFace3" autoplay="" playsinline=""></video>
+					<video id="peerFace4" autoplay="" playsinline=""></video>
+				</div>
+				<div id="myStream">
+					<video id="myFace" autoplay="" playsinline="" muted=""></video>
+					<div style="text-align: center">
+						<button id="mute">Mute</button><span> </span>
+						<button id="camera">Turn Camera Off</button><span> </span>
+						<button> <select id="cameras"></select></button> </div>
+				</div> <!-- myStream 끝 -->
+				
+
 			</div>
 		</div>
 	</main>

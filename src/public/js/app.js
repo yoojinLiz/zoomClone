@@ -183,9 +183,15 @@ function makeConnection() {
 }
 
 function handleTrack(data) {
-  console.log("handle track")
-  const peerFace = document.querySelector("#peerFace")
-  peerFace.srcObject = data.streams[0]
+  console.log("handle track");
+  const peerFace = document.querySelector("#peerFace");
+  const peerFace2 = document.querySelector("#peerFace2");
+  const peerFace3 = document.querySelector("#peerFace3");
+  const peerFace4 = document.querySelector("#peerFace4");
+  peerFace.srcObject = data.streams[0];
+  peerFace2.srcObject = data.streams[0];
+  peerFace3.srcObject = data.streams[0];
+  peerFace4.srcObject = data.streams[0];
 }
 
 function handleIce(data) {
@@ -199,7 +205,13 @@ function handleIce(data) {
 function handleAddStream(data) {
   //!나의 스트림은 myStream 이고, data.stream은 상대의 스트림이다!
   const peerFace = document.getElementById("peerFace");
+  const peerFace2 = document.querySelector("#peerFace2")
+  const peerFace3 = document.querySelector("#peerFace3")
+  const peerFace4 = document.querySelector("#peerFace4")
   peerFace.srcObject = data.stream;
+  peerFace2.srcObject = data.streams;
+  peerFace3.srcObject = data.streams;
+  peerFace4.srcObject = data.streams;
 }
 
 
