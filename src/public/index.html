@@ -1,0 +1,88 @@
+<html lang="en">
+
+<head>
+	<title> </title>
+	<link rel="stylesheet" type= "text/css" href="/src/public/css/styles.css">
+	<style>
+
+		header, #welcome, #myStream, #controllers, #call{
+			text-align: center;
+			display: flexbox;
+			justify-content: center;
+		}
+		#call {
+			background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e93f32e2-3742-42cb-a50b-03626443685f/df6g15q-7f8d784b-1ac7-45f9-b45f-b869ba4f3438.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2U5M2YzMmUyLTM3NDItNDJjYi1hNTBiLTAzNjI2NDQzNjg1ZlwvZGY2ZzE1cS03ZjhkNzg0Yi0xYWM3LTQ1ZjktYjQ1Zi1iODY5YmE0ZjM0MzguanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ZKeqryjrS1Nm-isUBNYGxI126grZblVBFZLlvxMLXXg");
+			background-repeat:no-repeat;
+			background-size: cover;
+			
+		}
+		#welcome img {
+			width :300px;
+			height: 400px;
+			margin: 50px 0px;
+		}
+		#call img {
+			width :200px;
+			margin: 50px 0px;
+		}
+		video {
+			width: 600 px;
+			height: 500px; 
+			border-radius: 150px;
+		}
+
+		main {
+			display: flexbox;
+			justify-content: center;
+		}
+		button, input {
+			padding: 12px 20px;
+			margin: 15px 10px; 
+			border-radius: 40px;
+			font-size: 30px;
+			text-align: center;
+		}
+		button {
+			background-color: powderblue;
+			border : none;
+		}
+		input, select {
+			border : 1px solid powderblue;
+		}
+		select {
+			border-radius: 40px;
+			font-size: 30px;
+			text-align: center;
+		}
+
+	
+	</style>
+</head>
+
+<body>
+	<header> 
+		</header>
+	<main>
+		<div id="welcome">
+			<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b78bca8e-a4da-49fa-ab80-3d02c3ca7775/Pngtreecute_dinosaur_free_illustration_4624375.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230103%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20230103T075745Z&amp;X-Amz-Expires=86400&amp;X-Amz-Signature=773e240db138a51abcc24217e07d98187e80411e38da5718537c08783f690451&amp;X-Amz-SignedHeaders=host&amp;response-content-disposition=filename%3D%22%25E2%2580%2594Pngtree%25E2%2580%2594cute%2520dinosaur%2520free%2520illustration_4624375.png%22&amp;x-id=GetObject">
+			<form> 
+				<input placeholder="room name" required="" type="text"><button>Enter room</button></form>
+		</div>
+		<div id="call" hidden="">
+			<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b78bca8e-a4da-49fa-ab80-3d02c3ca7775/Pngtreecute_dinosaur_free_illustration_4624375.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230103%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20230103T075745Z&amp;X-Amz-Expires=86400&amp;X-Amz-Signature=773e240db138a51abcc24217e07d98187e80411e38da5718537c08783f690451&amp;X-Amz-SignedHeaders=host&amp;response-content-disposition=filename%3D%22%25E2%2580%2594Pngtree%25E2%2580%2594cute%2520dinosaur%2520free%2520illustration_4624375.png%22&amp;x-id=GetObject">
+			<div id="myStream">
+				<video id="myFace" autoplay="" playsinline="" muted=""></video></div>
+			<div style="text-align: center">
+				<button id="mute">Mute</button><span> </span>
+				<button id="camera">Turn Camera Off</button><span> </span>
+				<button> <select id="cameras"></select></button>
+				<div></div>
+				<video id="peerFace" autoplay="" playsinline=""></video>
+			</div>
+		</div>
+	</main>
+	<script src="/socket.io/socket.io.js"> </script>
+	<script src="/public/js/app.js"> </script>
+</body>
+
+</html>
