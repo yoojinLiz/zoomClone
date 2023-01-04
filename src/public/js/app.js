@@ -123,7 +123,6 @@ async function initCall() {
   welcome.hidden = true;
   call.hidden = false;
   await getMedia();
-  makeConnection();
 }
 
 async function handleWelcomeSubmit(event) {
@@ -141,19 +140,19 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
 //! Socket Code (먼저 방에 참여하고 있는 브라우저들에게 적용되는 코드)
 socket.on("welcome", async (newSocket) => {
-  console.log("받은 socket: ", newSocket);
+  makeConnection();
   const oldSocket = socket.id;
-  console.log("내 socket: ", socket.id);
+  console.log("받은 socket: ", newSocket);
+  console.log("내 socket: ", oldSocket);
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
-  console.log("sent the offer");
-  socket.emit("offer", offer, roomName, newSocket, oldSocket); // socket.id는 내 소켓 
+  socket.emit("offer", offer, roomName, newSocket, oldSocket); 
   console.log("sent the offer");
 });
 
 //! Socket Code (새로 방에 참여하려고 하는 브라우저들에게 적용되는 코드)
 socket.on("offer", async (offer, oldSocket) => {
-  console.log("received the offer");
+  console.log("received the offer: ", offer);
   myPeerConnection.setRemoteDescription(offer);
   const answer = await myPeerConnection.createAnswer();
   myPeerConnection.setLocalDescription(answer);
@@ -165,11 +164,13 @@ socket.on("offer", async (offer, oldSocket) => {
 socket.on("answer", (answer, newSocket) => {
   console.log("received the answer");
   myPeerConnection.setRemoteDescription(answer);
-  socket.mypeer = newSocket; 
+  // socket.mypeer = newSocket; 
+  socket[mypeer] = newSocket;
   console.log("진실의 순간.... 🪞🪞🪞🪞🪞🪞🪞: ", socket.mypeer);
 })
 
 socket.on("ice", (ice) => {
+  console.log("진실의 순간.... 🪞🪞🪞🪞🪞🪞🪞: ", socket.mypeer);
     console.log("received candidate");
     myPeerConnection.addIceCandidate(ice);
   });
@@ -191,6 +192,7 @@ function makeConnection() {
       },
     ],
   });
+  console.log("myPeerConnection!! 👻👻👻", myPeerConnection)
   myPeerConnection.addEventListener("icecandidate", handleIce);
   myPeerConnection.addEventListener("addstream", handleAddStream);
   myPeerConnection.addEventListener("track", handleTrack);
@@ -217,6 +219,7 @@ function handleIce(data) {
   ! 이 data를 console.log 해보면 여러 개의 candidates가 찍힘
   ! 누군가가 조인 하는 순간 양쪽 브라우저 모두 자신의 candidates들을 콘솔에 찍는다! */
   console.log("sent candidate");
+  console.log("socket.mypeer! 📌📌📌", socket.mypeer );
   socket.emit("ice", data.candidate, roomName, socket.mypeer);
 }
 

@@ -41,30 +41,42 @@
 			margin-bottom: 100px ;
 		}
 		#myStream {
+			position:relative;
 			width: 80%;
 			padding-left: 100px;
 			text-align: center;
 			color: white;
-			
-	
+		
 		}
 		#welcome img {
-			width :300px;
+			width :800px;
 			margin: 50px 0px;
 		}
 		#call img {
 			width :20px;
 			margin: 10px 0px;
 		}
-		#myStream video {
+		
+		iframe {
 			margin-top:  40px;
-			/* width: 90%; */
+			width: 90%;
+			height: 90%;
+		}
+		/* #myStream video {
+			margin-top:  40px;
 			height: 85vh;
 			border-radius: 15%;
+		} */
+		#myStream video {
+			position: absolute;
+			bottom: 7%;
+			left :11%; 
+			width: 25%;
+			border-radius: 20px;
 		}
 		#peerStream video {
-			width: 250px;
-			height: 250px;
+			width: 300px;
+			height: 300px;
 			border-radius: 15%;
 		}
 		main {
@@ -72,16 +84,16 @@
 			justify-content: center;
 		}
 		button, input {
-			padding: 12px 20px;
-			margin: 15px 10px; 
+			padding: 20px 60px;
+			margin: 10px 10px; 
 			border-radius: 40px;
-			font-size: 30px;
+			font-size: 34px;
 			text-align: center;
 		}
 		button {
 			background-color: powderblue;
 			border : none;
-			padding: 20px;
+			padding: 18px 22px;
 		}
 		input, select {
 			border : 1px solid powderblue;
@@ -105,23 +117,23 @@
 		</header>
 	<main>
 		<div id="welcome">
-			<img src="https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/%E2%80%94Pngtree%E2%80%94cute+dinosaur+free+illustration_4624375.png">
+			<img src="https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/kidsquiz_logo.png">
 			<form> 
-				<input placeholder="room name" required="" type="text"><button>Enter room</button></form>
+				<input placeholder=" 🔑 비밀번호를 입력하세요" required="" type="text">
+				<button>시작하기</button></form>
 		</div>
 		<div id="call">
 			<img src="https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/%E2%80%94Pngtree%E2%80%94cute+dinosaur+free+illustration_4624375.png">
 			<div id="videos">
 				<div id="peerStream">
 					
-
-					
-					
 				</div>
 				<div id="myStream">
-					<!-- <iframe src="http://3.37.66.194:3000/"></iframe> -->
+					<div id="teacher">
+					<iframe src="https://kidsquiz.kr"></iframe>
 
 					<video id="myFace" autoplay="" playsinline="" muted=""></video>
+					</div>
 					<div style="text-align: center">
 						<button id="mute"> <i id="muteIcon" class="fa-solid fa-microphone-slash"></i></button><span> </span>
 						<button id="camera"><i id="cameraIcon" class="fa-solid fa-circle-xmark"></i></button><span> </span>
