@@ -166,7 +166,7 @@ socket.on("ice", (ice) => {
     myPeerConnection.addIceCandidate(ice);
   });
   
-  // RTC
+// RTC
 
 // RTC Code
 function makeConnection() {
