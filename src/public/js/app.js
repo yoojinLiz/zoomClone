@@ -1,4 +1,5 @@
 const socket = io()
+console.log("나는 소켓이야 🛎🛎🛎 \n",socket);
 
 const myFace = document.getElementById("myFace"); // video 화면
 const muteBtn = document.getElementById("mute"); 
@@ -126,10 +127,12 @@ async function initCall() {
 }
 
 async function handleWelcomeSubmit(event) {
+  console.log("나는 소켓 id야 🛎🛎🛎 \n", socket.id);
+  const newSocket = socket.id
   event.preventDefault();
   const input = welcomeForm.querySelector("input");
   await initCall();
-  socket.emit("join_room", input.value);
+  socket.emit("join_room", input.value, newSocket );
   roomName = input.value;
   input.value = "";
 }
@@ -137,28 +140,33 @@ async function handleWelcomeSubmit(event) {
 welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
 //! Socket Code (먼저 방에 참여하고 있는 브라우저들에게 적용되는 코드)
-socket.on("welcome", async () => {
+socket.on("welcome", async (newSocket) => {
+  console.log("받은 socket: ", newSocket);
+  const oldSocket = socket.id;
+  console.log("내 socket: ", socket.id);
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   console.log("sent the offer");
-  socket.emit("offer", offer, roomName);
+  socket.emit("offer", offer, roomName, newSocket, oldSocket); // socket.id는 내 소켓 
   console.log("sent the offer");
 });
 
 //! Socket Code (새로 방에 참여하려고 하는 브라우저들에게 적용되는 코드)
-socket.on("offer", async (offer) => {
+socket.on("offer", async (offer, oldSocket) => {
   console.log("received the offer");
   myPeerConnection.setRemoteDescription(offer);
   const answer = await myPeerConnection.createAnswer();
   myPeerConnection.setLocalDescription(answer);
-  socket.emit("answer", answer, roomName);
+  socket.emit("answer", answer, roomName, oldSocket, socket.id);
   console.log("sent the answer");
 }); 
 
 //! Socket Code (먼저 방에 참여하고 있는 브라우저들에게 적용되는 코드)
-socket.on("answer", (answer) => {
+socket.on("answer", (answer, newSocket) => {
   console.log("received the answer");
   myPeerConnection.setRemoteDescription(answer);
+  socket.mypeer = newSocket; 
+  console.log("진실의 순간.... 🪞🪞🪞🪞🪞🪞🪞: ", socket.mypeer);
 })
 
 socket.on("ice", (ice) => {
@@ -209,19 +217,23 @@ function handleIce(data) {
   ! 이 data를 console.log 해보면 여러 개의 candidates가 찍힘
   ! 누군가가 조인 하는 순간 양쪽 브라우저 모두 자신의 candidates들을 콘솔에 찍는다! */
   console.log("sent candidate");
-  socket.emit("ice", data.candidate, roomName);
+  socket.emit("ice", data.candidate, roomName, socket.mypeer);
 }
 
 function handleAddStream(data) {
   //!나의 스트림은 myStream 이고, data.stream은 상대의 스트림이다!
-  const peerFace = document.getElementById("peerFace");
-  const peerFace2 = document.querySelector("#peerFace2")
-  const peerFace3 = document.querySelector("#peerFace3")
-  const peerFace4 = document.querySelector("#peerFace4")
-  peerFace.srcObject = data.stream;
-  peerFace2.srcObject = data.streams;
-  peerFace3.srcObject = data.streams;
-  peerFace4.srcObject = data.streams;
+  const peerStream = document.getElementById("peerStream");
+  console.log("data : 🔑🔑🔑", data);
+  console.log("data : 🎀", data.stream);
+  
+  const videoElem = document.createElement("video");
+  videoElem.id = "peerFace";
+  videoElem.autoplay= true;
+  videoElem.playsinline = true;
+  peerStream.appendChild(videoElem);
+  console.log("why...🧐🧐🧐", videoElem)
+  videoElem.srcObject = data.stream;
+
 }
 
 

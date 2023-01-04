@@ -112,18 +112,26 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("join_room", (roomName) => {
+  socket.on("join_room", (roomName, newSocket) => {
     socket.join(roomName);
-    socket.to(roomName).emit("welcome");
+    socket.to(roomName).emit("welcome", newSocket);
   });
-  socket.on("offer", (offer, roomName) => {
-    socket.to(roomName).emit("offer", offer);
+  
+  //고참 소켓의 서버
+  socket.on("offer", (offer, roomName, newSocket, oldSocket ) => {
+    // socket.to(roomName).emit("offer", offer);
+    socket.to(newSocket).emit("offer", offer, oldSocket);
   });
-  socket.on("answer", (answer, roomName) => {
-    socket.to(roomName).emit("answer", answer);
+
+  // 신참 소켓의 서버
+  socket.on("answer", (answer, roomName, oldSocket, newSocket) => {
+    // socket.to(roomName).emit("answer", answer);
+    socket.to(oldSocket).emit("answer", answer, newSocket);
   });
-  socket.on("ice", (ice, roomName) => {
+
+  socket.on("ice", (ice, roomName, peerSocket) => {
     socket.to(roomName).emit("ice", ice);
+    // socket.to(peerSocket).emit("ice", ice);
   });
 
 
