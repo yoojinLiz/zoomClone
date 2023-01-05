@@ -1,0 +1,121 @@
+
+<!-- saved from url=(0025)http://3.34.127.191:8080/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title> </title>
+	<style>
+		body {
+			height : 90vh;
+		}
+		header, #welcome, #myStream, #controllers, #call{
+			text-align: center;
+
+		}
+		#call {
+			background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e93f32e2-3742-42cb-a50b-03626443685f/df6g15q-7f8d784b-1ac7-45f9-b45f-b869ba4f3438.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2U5M2YzMmUyLTM3NDItNDJjYi1hNTBiLTAzNjI2NDQzNjg1ZlwvZGY2ZzE1cS03ZjhkNzg0Yi0xYWM3LTQ1ZjktYjQ1Zi1iODY5YmE0ZjM0MzguanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ZKeqryjrS1Nm-isUBNYGxI126grZblVBFZLlvxMLXXg");
+			background-repeat:no-repeat;
+			background-size: cover;
+		}
+		#videos {
+			display: flex;
+			justify-content: center;
+			padding: 0 3%;
+		}
+		#peerStream{
+			width: 20%;
+			display:flex;
+			flex-direction: column;
+			align-items: center;
+			background-color: rgba(255,255,255,0.5);
+			border-radius: 30px;
+			padding: 40px 0;
+			margin-top:  40px;
+			margin-bottom: 100px ;
+		}
+		#myStream {
+			width: 80%;
+			padding-left: 100px;
+			text-align: left;
+			color: white;
+	
+		}
+		#welcome img {
+			width :300px;
+			height: 400px;
+			margin: 50px 0px;
+		}
+		#call img {
+			width :20px;
+			margin: 10px 0px;
+		}
+		#myStream video {
+			width: 100%;
+			border-radius: 15%;
+		}
+		#peerStream video {
+			width: 250px;
+			height: 250px;
+			border-radius: 15%;
+		}
+		main {
+			display: flexbox;
+			justify-content: center;
+		}
+		button, input {
+			padding: 12px 20px;
+			margin: 15px 10px; 
+			border-radius: 40px;
+			font-size: 30px;
+			text-align: center;
+		}
+		button {
+			background-color: powderblue;
+			border : none;
+		}
+		input, select {
+			border : 1px solid powderblue;
+		}
+		select {
+			border-radius: 40px;
+			font-size: 30px;
+			text-align: center;
+		}
+
+	
+	</style>
+</head>
+
+<body>
+	<header> 
+		</header>
+	<main>
+		<div id="welcome" hidden="">
+			<img src="./3.34.127.191_files/—Pngtree—cute dinosaur free illustration_4624375.png">
+			<form> 
+				<input placeholder="room name" required="" type="text"><button>Enter room</button></form>
+		</div>
+		<div id="call">
+			<img src="./3.34.127.191_files/—Pngtree—cute dinosaur free illustration_4624375.png">
+			<div id="videos">
+				<div id="peerStream">
+					<video id="peerFace" autoplay="" playsinline=""></video>
+					<video id="peerFace2" autoplay="" playsinline=""></video>
+					<video id="peerFace3" autoplay="" playsinline=""></video>
+					<video id="peerFace4" autoplay="" playsinline=""></video>
+				</div>
+				<div id="myStream">
+					<video id="myFace" autoplay="" playsinline="" muted=""></video>
+					<div style="text-align: center">
+						<button id="mute">Mute</button><span> </span>
+						<button id="camera">Turn Camera Off</button><span> </span>
+						<button> <select id="cameras"><option value="94d70dc0f9181311b523472e5c4bd640358dc7c0c41c911d74bf646b4b1312dc">Camo Camera</option><option value="67a32f8c781a3bcb3263cb1e0cbbf767db518e84c2c63e03f73be3c80d2d23e8">FaceTime HD Camera</option></select></button> </div>
+				</div> <!-- myStream 끝 -->
+				
+
+			</div>
+		</div>
+	</main>
+	<script src="./3.34.127.191_files/socket.io.js"> </script>
+	<script src="./3.34.127.191_files/app.js"> </script>
+
+
+</body></html>

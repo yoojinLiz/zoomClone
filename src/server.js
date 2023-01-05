@@ -126,13 +126,13 @@ io.on("connection", (socket) => {
   // 신참 소켓의 서버
   socket.on("answer", (answer, roomName, oldSocket, newSocket) => {
     // socket.to(roomName).emit("answer", answer);
-    console.log("answer", answer);
+    
     socket.to(oldSocket).emit("answer", answer, newSocket);
   });
 
-  socket.on("ice", (ice, roomName, peerSocket) => {
+  socket.on("ice", (ice, peerSocket, currSocket) => {
     // socket.to(roomName).emit("ice", ice);
-    socket.to(peerSocket).emit("ice", ice);
+    socket.to(peerSocket).emit("ice", ice, currSocket);
   });
 
 
