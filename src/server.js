@@ -126,17 +126,31 @@ io.on("connection", (socket) => {
   // 신참 소켓의 서버
   socket.on("answer", (answer, roomName, oldSocket, newSocket) => {
     // socket.to(roomName).emit("answer", answer);
-    console.log("answer", answer);
+    
     socket.to(oldSocket).emit("answer", answer, newSocket);
   });
 
-  socket.on("ice", (ice, roomName, peerSocket) => {
+  socket.on("ice", (ice, peerSocket, currSocket) => {
     // socket.to(roomName).emit("ice", ice);
-    socket.to(peerSocket).emit("ice", ice);
+    socket.to(peerSocket).emit("ice", ice, currSocket);
   });
+
+  socket.on('disconnecting', (socket)=> {
+    console.log('The client is about to disconnect');
+    socket.to(socket).emit("disconnecting");
+
+  });
+  // socket.on("disconnectPeer", (data) => {
+  //   const { to } = data  
+  //   console.log('[disconnect] to ', { to })
+  //   if (to !== null) {
+  //       socket.to(to).emit('disconnectPeer')
+  //   }
+  // })
 
 
 });
+
 
 // serve on port
 // const PORT = process.env.PORT || 8080;
@@ -146,5 +160,3 @@ io.on("connection", (socket) => {
 
 const handleListen = () => console.log("✅ server starts! Enjoy your RealTime Communication");
 server.listen(8080, handleListen);  
-
-
