@@ -1,0 +1,23 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd zoomClone/
+            pm2 delete zoomclone
+            git pull
+            npm i
+            pm2 start npm --name "zoomclone" -- run dev
