@@ -1,4 +1,5 @@
 const socket = io()
+console.log("나는 소켓이야 🛎🛎🛎 \n",socket);
 
 const myFace = document.getElementById("myFace"); // video 화면
 const muteBtn = document.getElementById("mute"); 
@@ -13,16 +14,16 @@ let cameraOff = false;
 let roomName;
 let myPeerConnection = {} ;
 let myDataChannel;
-let recentPeer; 
 
 const call = document.getElementById("call");
 call.hidden = true;
+
 
 async function getCameras() {
   try {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const cameras = devices.filter((device) => device.kind === "videoinput"); // 여러 미디어 요소중 videoinput (카메라) 요소만 찾아서 cameras 라는 배열에 넣는다 
-    // console.log(myStream.getVideoTracks());
+    console.log(myStream.getVideoTracks());
     const currentCamera = myStream.getVideoTracks()[0]; // 현재 비디오가 송출되는 카메라 
     /* currentCamera 정보 중 일부 예시 
     id : "a23fcc40-36e8-49b2-8b68-8ac3d5c03242"
@@ -66,6 +67,7 @@ async function getMedia(deviceId) {
   }
 }
 
+
 function handleMuteClick() {
   myStream
   .getAudioTracks()
@@ -83,7 +85,6 @@ function handleMuteClick() {
     muteIcon.classList.add('fa-microphone-slash')
   }
 }
-
 function handleCameraClick() {
   myStream
   .getVideoTracks()
@@ -115,23 +116,23 @@ cameraBtn.addEventListener("click", handleCameraClick);
 camerasSelect.addEventListener("input", handleCameraChange); // 선택하는 카메라가 바뀔때마다 스트림 새로 받아오게 함 
 
 // Welcome Form (join a room)
+
 const welcome = document.getElementById("welcome");
 const welcomeForm = welcome.querySelector("form");
 
-//! 방 번호 입력하는 from 을 숨겨주고, 미디어를 불러와서 학습창을 켜는 부분 
-async function initCall() { 
+async function initCall() {
   welcome.hidden = true;
   call.hidden = false;
   await getMedia();
 }
 
 async function handleWelcomeSubmit(event) {
-  event.preventDefault();
-  console.log("나의 소켓🚀 id :", socket.id);
+  console.log("나는 소켓 id야 🛎🛎🛎 \n", socket.id);
   const newSocket = socket.id
+  event.preventDefault();
   const input = welcomeForm.querySelector("input");
-  await initCall(); // 학습 창 켜기 
-  socket.emit("join_room", input.value, newSocket);
+  await initCall();
+  socket.emit("join_room", input.value, newSocket );
   roomName = input.value;
   input.value = "";
 }
@@ -140,12 +141,11 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
 //! Socket Code (먼저 방에 참여하고 있는 브라우저들에게 적용되는 코드)
 socket.on("welcome", async (newSocket) => {
-  makeConnection(newSocket); // 새로운 커넥션 생성 
+  makeConnection(newSocket);
   const conn = myPeerConnection[newSocket];
-  // console.log("welcome - peer connection 확인", conn);  //! makeConnection 내에서 찍어본 함수와 동일한 것 확인 완료 
   const oldSocket = socket.id;
-  // console.log("new socket: ", newSocket);
-  // console.log("me = old socket: ", oldSocket);
+  console.log("받은 socket: ", newSocket);
+  console.log("내 socket: ", oldSocket);
   
   //?
   myDataChannel = conn.createDataChannel("chat");
@@ -159,58 +159,45 @@ socket.on("welcome", async (newSocket) => {
 
 //! Socket Code (새로 방에 참여하려고 하는 브라우저들에게 적용되는 코드)
 socket.on("offer", async (offer, oldSocket) => {
-  console.log("🍎🍎🍎🍎 test", socket)
   makeConnection(oldSocket);
   const conn = myPeerConnection[oldSocket];
-  // console.log("offer - peer connection 확인", conn); //! makeConnection 내에서 찍어본 함수와 동일한 것 확인 완료 
-  
+
   conn.addEventListener("datachannel", (event) => {
     myDataChannel = event.channel;
-    myDataChannel.addEventListener("message", (event) => console.log(event.data));
+    myDataChannel.addEventListener("message", (event) =>
+      console.log(event.data)
+    );
   });
 
-  console.log("received the offer: ");
+  console.log("received the offer: ", offer);
   conn.setRemoteDescription(offer);
   const answer = await conn.createAnswer();
   conn.setLocalDescription(answer);
   socket.emit("answer", answer, roomName, oldSocket, socket.id);
   console.log("sent the answer");
-  recentPeer = oldSocket;
-  console.log("recentPeer!!!", recentPeer)
-
-  const divElement = document.getElementById('peerStream');
-  const videoElement = divElement.lastElementChild;
-  videoElement.setAttribute('id', recentPeer);
-
 }); 
 
 //! Socket Code (먼저 방에 참여하고 있는 브라우저들에게 적용되는 코드)
 socket.on("answer", (answer, newSocket) => {
-  console.log("🍎🍎🍎🍎 test", socket)
   console.log("received the answer");
   const conn = myPeerConnection[newSocket];
   conn.setRemoteDescription(answer);
-  recentPeer = newSocket;
+  // socket.mypeer = newSocket; 
+  // socket[mypeer] = newSocket;
+  // console.log("진실의 순간.... 🪞🪞🪞🪞🪞🪞🪞: ", socket.mypeer);
 })
 
 socket.on("ice", (ice, currSocket) => {
   if (ice) {
+      // console.log("진실의 순간.... 🪞🪞🪞🪞🪞🪞🪞: ", socket.mypeer);
       console.log("received candidate");
       const conn = myPeerConnection[currSocket]
       conn.addIceCandidate(ice);
     };
 });
-
-socket.on("bye", (socketLeft) => {
-  console.log("삭제할 소켓 id" , socketLeft);
-  const conn = myPeerConnection[socketLeft]
-  const videoElement = document.getElementById(socketLeft.socketId);
-  console.dir(videoElement);
-  videoElement.remove();
-  conn.close(); // webRTC peerconnection 종료 
-})
-
   
+// RTC
+
 // RTC Code
 function makeConnection(socket) {
   const newPeerConnection = new RTCPeerConnection({
@@ -226,11 +213,12 @@ function makeConnection(socket) {
       },
     ],
   });
-
   if (socket !== ''){
     myPeerConnection[socket] = newPeerConnection ;
   }
+  console.log("newPeerConnection!! 👻👻👻", newPeerConnection)
   newPeerConnection.addEventListener("icecandidate", handleIce);
+  // newPeerConnection.addEventListener("addstream", handleAddStream); //!!!!!! 
   newPeerConnection.addEventListener("track", handleTrack);
   
   myStream
@@ -238,45 +226,63 @@ function makeConnection(socket) {
     .forEach((track) => newPeerConnection.addTrack(track, myStream));
 }
 
+
+
 function handleIce(data) {
   /* 
   ! 이 data를 console.log 해보면 여러 개의 candidates가 찍힘
   ! 누군가가 조인 하는 순간 양쪽 브라우저 모두 자신의 candidates들을 콘솔에 찍는다! */
   console.log("sent candidate");
-  // console.log("ICE🐳🐳🐳 candidate data : ",data);
+  // console.log("socket.mypeer! 📌📌📌", socket.mypeer);
+  // socket.emit("ice", data.candidate, roomName, socket.mypeer);
 
-  // sid는 socketId, connection 은 PeerConnection 
   for (const [sid, connection] of Object.entries(myPeerConnection)) {
+    console.log("찍어보자..:🔺🔺🔺" , sid, connection);
     if (connection === data.target) {
       socket.emit("ice", data.candidate, sid, socket.id);
     }
   }
 }
 
+function handleAddStream(data) {
+  //!나의 스트림은 myStream 이고, data.stream은 상대의 스트림이다!
+  const peerStream = document.getElementById("peerStream");
+  console.log("data : 🔑🔑🔑", data);
+  console.log("data : 🎀", data.stream);
+  const videoElem = document.createElement("video");
+  videoElem.id = "peerFace";
+  videoElem.autoplay= true;
+  videoElem.playsinline = true;
+  peerStream.appendChild(videoElem);
+  console.log("why...🧐🧐🧐", videoElem)
+  videoElem.srcObject = data.stream;
+}
+
+
 function handleTrack(data) {
-  // console.log("handle-track data : 🎀", data);
-  // console.log("handle-track data.streams : 🎀", data.streams[0]);
-  if (data.track.kind === 'video') {
+  console.log("handle track");
+  console.log("data stream!! !!!", data.stream)
+  // if (data.track.kind === 'video')  {
     const peerStream = document.getElementById("peerStream");
     const videoElem = document.createElement("video");
-    // videoElem.id = "peerFace";
-    
+    videoElem.className = "peerFace";
+    videoElem.id = socket.id ;
     videoElem.autoplay= true;
     videoElem.playsinline = true;
     peerStream.appendChild(videoElem);
-    videoElem.srcObject = data.streams[0];
-    console.log("recent Peer in handleTrack!!!🔔🔔🔔" , recentPeer);
-    videoElem.id = recentPeer;
+    console.log("why...🧐🧐🧐", videoElem)
+    videoElem.srcObject = data.stream[0]; 
   }
-}
-
-// window.onbeforeunload = function() {  //! 창 뒤로 가기 누를 때 알림창으로 정말 나갈 것인지 물어봄
-//   return "Are you sure you want to leave this page?"; 
 // }
 
-// 제대로 안되고 있는 것 같음 ㅠㅠㅠㅠㅠㅠㅠㅠ
-window.addEventListener('beforeunload', (event) => {
-  // Do something, such as send an AJAX request to the server
-  socket.disconnect();
-  // socket.emit("test")
-});
+
+socket.on("disconnectiv", () => {
+  //! 해당 id의 video 요소 삭제 하기 
+  for (const [sid, connection] of Object.entries(myPeerConnection)) {
+    peerConnection
+    socket.emit("bye", );
+
+  }
+  peerConnection.terminate();
+
+}) ;
